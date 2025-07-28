@@ -1,0 +1,1 @@
+void deleteUser(String userId);
