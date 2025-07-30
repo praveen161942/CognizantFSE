@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: customer
+          uri: lb://customer-service
+          predicates:
+            - Path=/customer/**
+          filters:
+            - RewritePath=/customer/(?<path>.*), /$\{path}
+            - RequestRateLimiter=redis-rate-limiter[replenishRate=10, burstCapacity=20]
+
+        - id: billing
+          uri: lb://billing-service
+          predicates:
+            - Path=/billing/**
